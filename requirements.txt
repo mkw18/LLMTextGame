@@ -1,0 +1,4 @@
+gradio
+mdtex2html
+openai
+pandas
