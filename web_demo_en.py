@@ -4,7 +4,6 @@ import pandas as pd
 import random as rd
 import os
 import openai
-openai.api_key = "your-openai-api-key"
 
 def postprocess(self, y):
     if y is None:
@@ -86,6 +85,10 @@ def reset_state():
     ]
     return chatbot, messages
 
+def apply_apikey(apikey):
+    openai.api_key = apikey
+    return gr.update(value='')
+
 
 table = pd.read_excel("data/puzzle_en.xlsx")
 question_num = table.values.shape[0]
@@ -100,6 +103,9 @@ with gr.Blocks() as demo:
     chatbot = gr.Chatbot([("New Lateral Thinking Puzzle", f"Story: {story}\n\nYou can ask questions to get the answer. Notice that I can only reply with 'Yes' or 'No'.\n\nInput 'stop' to stop the game, 'finish' to finish the game and move on to next round.")])
     with gr.Row():
         with gr.Column(scale=4):
+            api_key = gr.Textbox(show_label=False, placeholder="OpenAI API Key", lines=1).style(
+                container=False)
+            apiBtn = gr.Button('Apply API key', variant="primary")
             with gr.Column(scale=12):
                 user_input = gr.Textbox(show_label=False, placeholder="Input...", lines=10).style(
                     container=False)
@@ -112,6 +118,8 @@ with gr.Blocks() as demo:
         {"role": "user", "content": "Let's play a lateral thinking puzzle game!"},
         {"role": "assistant", "content": f"OK, I will provide a story, and you can ask questions to get the answer. The story is:\n{story}\n\nNotice that I can only reply with 'Yes' or 'No'."},
     ])
+
+    apiBtn.click(apply_apikey, [api_key], [api_key])
 
     submitBtn.click(predict, [user_input, chatbot, messages], [chatbot, messages],
                     show_progress=True)

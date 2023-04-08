@@ -4,7 +4,6 @@ import pandas as pd
 import random as rd
 import os
 import openai
-openai.api_key = "your-openai-api-key"
 
 def postprocess(self, y):
     if y is None:
@@ -86,6 +85,9 @@ def reset_state():
     ]
     return chatbot, messages
 
+def apply_apikey(apikey):
+    openai.api_key = apikey
+    return gr.update(value='')
 
 table = pd.read_excel("data/puzzle_zh.xlsx")
 question_num = table.values.shape[0]
@@ -100,6 +102,9 @@ with gr.Blocks() as demo:
     chatbot = gr.Chatbot([("新的海龟汤", f"汤面：{story}\n\n你可以开始猜测汤底的内容，我会回答你的问题。请注意，我只能回答“是”或“否”。")])
     with gr.Row():
         with gr.Column(scale=4):
+            api_key = gr.Textbox(show_label=False, placeholder="OpenAI API Key", lines=1).style(
+                container=False)
+            apiBtn = gr.Button('Apply API key', variant="primary")
             with gr.Column(scale=12):
                 user_input = gr.Textbox(show_label=False, placeholder="Input...", lines=10).style(
                     container=False)
@@ -112,6 +117,8 @@ with gr.Blocks() as demo:
         {"role": "user", "content": "陪我玩海龟汤。"},
         {"role": "assistant", "content": f"好的，以下是汤面：\n{story}\n\n你可以开始猜测汤底的内容，我会回答你的问题。请注意，我只能回答“是”或“否”。"},
     ])
+
+    apiBtn.click(apply_apikey, [api_key], [api_key])
 
     submitBtn.click(predict, [user_input, chatbot, messages], [chatbot, messages],
                     show_progress=True)

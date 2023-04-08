@@ -14,7 +14,7 @@ cd LLMTextGame
 pip install -r requirements.txt
 ```
 
-We use gpt-3.5 in the demo. Before using the demo, paste your openai api key at `openai.api_key = "your-openai-api-key"`. 
+We use gpt-3.5 in the demo.
 
 ### Web Demo
 
@@ -27,7 +27,7 @@ python web_demo_en.py
 python web_demo_zh.py
 ```
 
-The program runs a web server and outputs the URL. Open the URL in the browser to use the web demo.
+The program runs a web server and outputs the URL. Open the URL in the browser to use the web demo. You need to enter your OpenAI API Key first to guarantee regular service.
 
 ### CLI Demo
 
@@ -40,7 +40,7 @@ python cli_demo_en.py
 python cli_demo_zh.py
 ```
 
-The command runs an interactive program in the shell. Type your instruction in the shell and hit enter to generate the response. Type `finish` to start a new game and clear the dialogue history and `stop` to terminate the program.
+The command runs an interactive program in the shell. You will need to enter OpenAI API Key first to play. Type `finish` to start a new game and clear the dialogue history and `stop` to terminate the program.
 
 ## License
 

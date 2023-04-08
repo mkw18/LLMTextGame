@@ -4,7 +4,8 @@ import openai
 import platform
 import pandas as pd
 import random as rd
-openai.api_key = "your-openai-api-key"
+apikey = input('Please enter your OpenAI API Key')
+openai.api_key = apikey
 
 os_name = platform.system()
 clear_command = 'cls' if os_name == 'Windows' else 'clear'
